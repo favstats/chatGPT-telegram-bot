@@ -214,8 +214,10 @@ def start_browser():
         PAGE.wait_for_selector("textarea")
         print("You are now logged in!")
         
-        # PAGE.keyboard.press('Enter')
-        
+        PAGE.keyboard.press('Enter')
+        PAGE.keyboard.press('Escape')
+        PAGE.keyboard.press('Escape')
+
         # continue_button = PAGE.query_selector("button[name=next])
         # continue_button.click()
         
