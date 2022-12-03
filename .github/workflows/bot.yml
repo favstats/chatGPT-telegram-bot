@@ -40,6 +40,8 @@ jobs:
         env:
           TELEGRAM_API_KEY: ${{ secrets.TELEGRAM_API_KEY }}
           TELEGRAM_USER_ID: ${{ secrets.TELEGRAM_USER_ID }}
+          EMAIL: ${{ secrets.EMAIL }}
+          PASSWORD: ${{ secrets.PASSWORD }}
       - name: "Commit"
         uses: stefanzweifel/git-auto-commit-action@v4
         with:

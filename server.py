@@ -191,9 +191,22 @@ async def check_loading(update):
 def start_browser():
     PAGE.goto("https://chat.openai.com/")
     if not is_logged_in():
-        print("Please log in to OpenAI Chat")
-        print("Press enter when you're done")
-        input()
+        # Click on the first "button.btn-primary" element on the page which is the log in button
+        # there are two button.btn-primary buttons, one of them is labelled "Sign Up". I don't want to click on that button
+        PAGE.query_selector("button.btn-primary").click()
+        
+        # Enter the email and password from the environment variables
+        email_input = PAGE.query_selector('input[name="username"]')
+        email_input.fill(os.environ["EMAIL"])
+        password_input = PAGE.query_selector('input[name="password"]')
+        password_input.fill(os.environ["PASSWORD"])
+
+        # Click the Continue button to log in
+        PAGE.query_selector('button[value="default"]').click()
+
+        # Wait for the page to load
+        PAGE.wait_for_selector('textarea')
+
     else:
 
         # on different commands - answer in Telegram
