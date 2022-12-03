@@ -62,7 +62,7 @@ application = Application.builder().token(os.environ.get('TELEGRAM_API_KEY')).bu
 
 def get_input_box():
     """Get the child textarea of `PromptTextarea__TextareaWrapper`"""
-    print(PAGE.get_html())
+    print(PAGE.content)
     return PAGE.query_selector("textarea")
 
 def is_logged_in():
@@ -270,7 +270,7 @@ def start_browser():
 # if __name__ == "__main__":
 PAGE = start_browser()
     
-print(PAGE.get_html())
+print(PAGE.content)
 
     
 # on different commands - answer in Telegram
