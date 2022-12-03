@@ -223,7 +223,7 @@ def start_browser():
         
         # Wait for the login process to complete
         print("Please wait while we log you in...")
-        PAGE.wait_for_element("textarea")
+        PAGE.wait_for_selector("textarea")
         print("You are now logged in!")
 
     else:
