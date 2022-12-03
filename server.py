@@ -215,12 +215,12 @@ def start_browser():
         print("You are now logged in!")
         
         PAGE.keyboard.press('Enter')
-        await PAGE.keyboard.press('\t')
-        await PAGE.keyboard.press('\t')
+        PAGE.keyboard.press('\t')
+        PAGE.keyboard.press('\t')
 
         PAGE.keyboard.press('Enter')
-        await PAGE.keyboard.press('\t')
-        await PAGE.keyboard.press('\t')
+        PAGE.keyboard.press('\t')
+        PAGE.keyboard.press('\t')
         
         PAGE.keyboard.press('Enter')
 
