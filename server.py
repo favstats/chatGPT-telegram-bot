@@ -194,7 +194,9 @@ async def gptchat(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         # password_input = PAGE.wait_for_selector("#password")
         # Check for the presence of the password input box using a JavaScript function
         password_input = PAGE.wait_for_function("document.querySelector('#password') !== null")
-        password_input.fill(os.environ["PASSWORD"])
+        # password_input.fill(os.environ["PASSWORD"])
+        password_input.type(os.environ["PASSWORD"])
+
     
 
         # Wait for the "Continue" button to be present on the page
