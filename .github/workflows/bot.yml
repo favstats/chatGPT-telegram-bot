@@ -13,15 +13,15 @@ on:
       - master
       - main
 
-
 jobs:
   update-data:
     name: Update Bot
     runs-on: "macos-latest"
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v4
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
       - name: Setup - Checkout repo
         uses: actions/checkout@v2
       - name: create environment
