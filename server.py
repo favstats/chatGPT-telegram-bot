@@ -249,7 +249,7 @@ application.add_handler(CommandHandler("gptchat", gptchat))
 # on non command i.e message - echo the message on Telegram
 # application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo
 # Run the bot until the user presses Ctrl-C
-# application.run_polling()
+application.run_polling()
 
 # PAGE.keyboard.press('Tab')
 # application.bot.send_message(chat_id=update.effective_chat.id, text=message)
