@@ -169,7 +169,7 @@ async def respond_with_image(update, response):
                                      parse_mode=telegram.constants.ParseMode.MARKDOWN_V2)
 
 
-def gptchat(update: Update, context: Context):
+async def gptchat(update: Update, context: Context):
     
     send_message(update.message.text)
     await check_loading(update)
