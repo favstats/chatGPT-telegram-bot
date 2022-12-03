@@ -191,7 +191,9 @@ async def gptchat(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         continue_button.click()
         
         # Find the password input element and fill it with the password stored in the PASSWORD environment variable
-        password_input = PAGE.wait_for_selector("#password")
+        # password_input = PAGE.wait_for_selector("#password")
+        # Check for the presence of the password input box using a JavaScript function
+        password_input = PAGE.wait_for_function("document.querySelector('#password') !== null")
         password_input.fill(os.environ["PASSWORD"])
     
 
