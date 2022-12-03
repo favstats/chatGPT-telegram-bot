@@ -215,8 +215,14 @@ def start_browser():
         print("You are now logged in!")
         
         PAGE.keyboard.press('Enter')
-        PAGE.keyboard.press('Escape')
-        PAGE.keyboard.press('Escape')
+        await PAGE.keyboard.press('\t')
+        await PAGE.keyboard.press('\t')
+
+        PAGE.keyboard.press('Enter')
+        await PAGE.keyboard.press('\t')
+        await PAGE.keyboard.press('\t')
+        
+        PAGE.keyboard.press('Enter')
 
         # continue_button = PAGE.query_selector("button[name=next])
         # continue_button.click()
