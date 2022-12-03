@@ -196,14 +196,15 @@ def start_browser():
         PAGE.query_selector("button.btn-primary").click()
         
         # Find the email input element and fill it with the email stored in the EMAIL environment variable
-        email_input = PAGE.query_selector("#username")
+        # Wait for the email input field to appear on the page
+        email_input = PAGE.wait_for_selector("#username")
         email_input.fill(os.environ["EMAIL"])
     
         # Click on the "Continue" button
         PAGE.query_selector("button[data-label=Continue]").click()
     
         # Find the password input element and fill it with the password stored in the PASSWORD environment variable
-        password_input = PAGE.query_selector("input[type=password]")
+        password_input = PAGE.wait_for_selector("#password")
         password_input.fill(os.environ["PASSWORD"])
     
         # Click on the "Continue" button
