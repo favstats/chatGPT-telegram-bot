@@ -8,7 +8,7 @@ import logging
 
 import dotenv
 import nest_asyncio
-from utils.sdAPI import drawWithStability
+# from utils.sdAPI import drawWithStability
 from functools import wraps
 from asyncio import wait_for
 
@@ -69,11 +69,11 @@ from telegram.helpers import escape, escape_markdown
 if os.environ.get('TELEGRAM_USER_ID'):
     USER_ID = int(os.environ.get('TELEGRAM_USER_ID'))
 
-# Enable logging
-logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
-)
-logger = logging.getLogger(__name__)
+# # Enable logging
+# logging.basicConfig(
+#     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
+# )
+# logger = logging.getLogger(__name__)
 
 
 
@@ -133,12 +133,14 @@ async def respond_with_image(update, response):
                                      parse_mode=telegram.constants.ParseMode.MARKDOWN_V2)
 
 
-def gptchat(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+async def gptchat(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     
     # print(PAGE.get_html())
-    
-    send_message(update.message.text)
-    # await check_loading(update)
+    text = update.message.text
+    text = text.replace("/gptchat ", "")
+
+    send_message(text)
+    await check_loading(update)
     
     print("are you ever here?")
     
@@ -149,24 +151,25 @@ def gptchat(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     print("are you everyy there?")
 
     # Send the message to the user
-    context.bot.send_message(chat_id=update.effective_chat.id, text=message)
-
+    # context.bot.send_message(chat_id=update.effective_chat.id, text=message)
+    # application.bot.send_message(chat_id=update.effective_chat.id, text=message)
     print("end")
+    await update.message.reply_text(message)
     
 
 
-# async def check_loading(update):
-#     # with a timeout of 45 seconds, created a while loop that checks if loading is done
-#     loading = PAGE.query_selector_all("button[class^='PromptTextarea__PositionSubmit']>.text-2xl")
-#     #keep checking len(loading) until it's empty or 45 seconds have passed
-#     await application.bot.send_chat_action(update.effective_chat.id, "typing")
-#     start_time = time.time()
-#     while len(loading) > 0:
-#         if time.time() - start_time > 45:
-#             break
-#         time.sleep(0.5)
-#         loading = PAGE.query_selector_all("button[class^='PromptTextarea__PositionSubmit']>.text-2xl")
-#         await application.bot.send_chat_action(update.effective_chat.id, "typing")
+async def check_loading(update):
+    # with a timeout of 45 seconds, created a while loop that checks if loading is done
+    loading = PAGE.query_selector_all("button[class^='PromptTextarea__PositionSubmit']>.text-2xl")
+    #keep checking len(loading) until it's empty or 45 seconds have passed
+    await application.bot.send_chat_action(update.effective_chat.id, "typing")
+    start_time = time.time()
+    while len(loading) > 0:
+        if time.time() - start_time > 45:
+            break
+        time.sleep(0.5)
+        loading = PAGE.query_selector_all("button[class^='PromptTextarea__PositionSubmit']>.text-2xl")
+        await application.bot.send_chat_action(update.effective_chat.id, "typing")
 
 
 def start_browser():
@@ -211,15 +214,18 @@ def start_browser():
         PAGE.wait_for_selector("textarea")
         print("You are now logged in!")
         
+        # PAGE.keyboard.press('Enter')
         
+        # continue_button = PAGE.query_selector("button[name=next])
+        # continue_button.click()
         
-        return PAGE
+        # return PAGE
 
 
 # if __name__ == "__main__":
-PAGE = start_browser()
+start_browser()
     
-print(PAGE.content)
+# print(PAGE.content)
 
     
 # on different commands - answer in Telegram
@@ -232,3 +238,27 @@ application.add_handler(CommandHandler("gptchat", gptchat))
 # Run the bot until the user presses Ctrl-C
 application.run_polling()
 
+
+# application.bot.send_message(chat_id=update.effective_chat.id, text=message)
+
+# send_message("asd")
+
+# get_input_box()
+
+# PAGE.("textarea")
+# 
+#  send_message("How are you doing today?")
+#     await check_loading(update)
+#     
+#     print("are you ever here?")
+#     
+#     # Retrieve the latest message from the chatbot
+#     message = get_last_message()
+#     
+#     print(message)
+#     print("are you everyy there?")
+# 
+#     # Send the message to the user
+#     context.bot.send_message(chat_id=update.effective_chat.id, text=message)
+# 
+# ContextTypes.DEFAULT_TYPE.bo
