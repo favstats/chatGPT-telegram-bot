@@ -201,14 +201,14 @@ def start_browser():
         email_input.fill(os.environ["EMAIL"])
     
         # Click on the "Continue" button
-        PAGE.query_selector("button[data-label=Continue]").click()
-    
+        PAGE.query_selector("button[data-label*=Continue]").click()
+
         # Find the password input element and fill it with the password stored in the PASSWORD environment variable
         password_input = PAGE.wait_for_selector("#password")
         password_input.fill(os.environ["PASSWORD"])
     
         # Click on the "Continue" button
-        PAGE.query_selector("button[data-label=Continue]").click()
+        PAGE.query_selector("button[data-label*=Continue]").click()
     
         # Wait for the login process to complete
         print("Please wait while we log you in...")
