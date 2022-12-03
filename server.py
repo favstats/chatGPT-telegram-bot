@@ -62,8 +62,7 @@ application = Application.builder().token(os.environ.get('TELEGRAM_API_KEY')).bu
 
 def get_input_box():
     """Get the child textarea of `PromptTextarea__TextareaWrapper`"""
-    # Wait for the element to become visible and stable
-    return PAGE.wait_for_selector("textarea")
+    return PAGE.query_selector("textarea")
 
 def is_logged_in():
     # See if we have a textarea with data-id="root"
@@ -174,6 +173,37 @@ async def gptchat(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     
     print("begin")
     
+    PAGE.goto("https://chat.openai.com/")
+
+    if not is_logged_in():
+        # Click on the first "button.btn-primary" element on the page which is the log in button
+        # there are two button.btn-primary buttons, one of them is labelled "Sign Up". I don't want to click on that button
+        PAGE.query_selector("button.btn-primary").click()
+        
+        # Find the email input element and fill it with the email stored in the EMAIL environment variable
+        # Wait for the email input field to appear on the page
+        email_input = PAGE.wait_for_selector("#username")
+        email_input.fill(os.environ["EMAIL"])
+    
+
+        # Wait for the "Continue" button to be present on the page
+        continue_button = PAGE.query_selector("button[name=action][value=default]")
+        continue_button.click()
+        
+        # Find the password input element and fill it with the password stored in the PASSWORD environment variable
+        password_input = PAGE.wait_for_selector("#password")
+        password_input.fill(os.environ["PASSWORD"])
+    
+
+        # Wait for the "Continue" button to be present on the page
+        continue_button = PAGE.query_selector("button[name=action][value=default]")
+        continue_button.click()
+        
+        # Wait for the login process to complete
+        print("Please wait while we log you in...")
+        PAGE.wait_for_selector("textarea")
+        print("You are now logged in!")
+    
     send_message(update.message.text)
     await check_loading(update)
     
@@ -217,47 +247,17 @@ async def check_loading(update):
 
 
 def start_browser():
-    PAGE.goto("https://chat.openai.com/")
-    if not is_logged_in():
-        # Click on the first "button.btn-primary" element on the page which is the log in button
-        # there are two button.btn-primary buttons, one of them is labelled "Sign Up". I don't want to click on that button
-        PAGE.query_selector("button.btn-primary").click()
-        
-        # Find the email input element and fill it with the email stored in the EMAIL environment variable
-        # Wait for the email input field to appear on the page
-        email_input = PAGE.wait_for_selector("#username")
-        email_input.fill(os.environ["EMAIL"])
-    
 
-        # Wait for the "Continue" button to be present on the page
-        continue_button = PAGE.query_selector("button[name=action][value=default]")
-        continue_button.click()
-        
-        # Find the password input element and fill it with the password stored in the PASSWORD environment variable
-        password_input = PAGE.wait_for_selector("#password")
-        password_input.fill(os.environ["PASSWORD"])
-    
-
-        # Wait for the "Continue" button to be present on the page
-        continue_button = PAGE.query_selector("button[name=action][value=default]")
-        continue_button.click()
-        
-        # Wait for the login process to complete
-        print("Please wait while we log you in...")
-        PAGE.wait_for_selector("textarea")
-        print("You are now logged in!")
-
-        # on different commands - answer in Telegram
-        application.add_handler(CommandHandler("start", start))
-        application.add_handler(CommandHandler("reload", reload))
-        application.add_handler(CommandHandler("help", help_command))
-        application.add_handler(CommandHandler("draw", draw))
-        application.add_handler(CommandHandler("gptchat", gptchat))
-        # on non command i.e message - echo the message on Telegram
-        # application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
-
-        # Run the bot until the user presses Ctrl-C
-        application.run_polling()
+    # on different commands - answer in Telegram
+    application.add_handler(CommandHandler("start", start))
+    application.add_handler(CommandHandler("reload", reload))
+    application.add_handler(CommandHandler("help", help_command))
+    application.add_handler(CommandHandler("draw", draw))
+    application.add_handler(CommandHandler("gptchat", gptchat))
+    # on non command i.e message - echo the message on Telegram
+    # application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo
+    # Run the bot until the user presses Ctrl-C
+    application.run_polling()
 
 if __name__ == "__main__":
     start_browser()
