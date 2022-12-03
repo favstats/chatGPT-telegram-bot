@@ -19,12 +19,17 @@ jobs:
     name: Update Bot
     runs-on: "macos-latest"
     steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
       - name: Setup - Checkout repo
         uses: actions/checkout@v2
       - name: create environment
         run: conda env create -f environment.yml
-      - name: install requirements
-        run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
       - name: install playwright
         run: playwright install
       - name: Run Bot
