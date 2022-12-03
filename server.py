@@ -196,6 +196,7 @@ async def gptchat(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         password_input = PAGE.wait_for_function("document.querySelector('#password') !== null")
         # password_input.fill(os.environ["PASSWORD"])
         # password_input.type(os.environ["PASSWORD"])
+        password_input.focus()
         password_input.send_keys(os.environ["PASSWORD"])
 
     
