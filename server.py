@@ -254,17 +254,21 @@ def start_browser():
         print("Please wait while we log you in...")
         PAGE.wait_for_selector("textarea")
         print("You are now logged in!")
+        
+        return PAGE
 
-    # on different commands - answer in Telegram
-    application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("reload", reload))
-    application.add_handler(CommandHandler("help", help_command))
-    application.add_handler(CommandHandler("draw", draw))
-    application.add_handler(CommandHandler("gptchat", gptchat))
-    # on non command i.e message - echo the message on Telegram
-    # application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo
-    # Run the bot until the user presses Ctrl-C
-    application.run_polling()
 
-if __name__ == "__main__":
-    start_browser()
+# if __name__ == "__main__":
+PAGE = start_browser()
+    
+# on different commands - answer in Telegram
+application.add_handler(CommandHandler("start", start))
+application.add_handler(CommandHandler("reload", reload))
+application.add_handler(CommandHandler("help", help_command))
+application.add_handler(CommandHandler("draw", draw))
+application.add_handler(CommandHandler("gptchat", gptchat))
+# on non command i.e message - echo the message on Telegram
+# application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo
+# Run the bot until the user presses Ctrl-C
+application.run_polling()
+
