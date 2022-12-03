@@ -62,7 +62,7 @@ application = Application.builder().token(os.environ.get('TELEGRAM_API_KEY')).bu
 
 def get_input_box():
     """Get the child textarea of `PromptTextarea__TextareaWrapper`"""
-    return PAGE.query_selector("textarea")
+    return PAGE.wait_for_selector("textarea")
 
 def is_logged_in():
     # See if we have a textarea with data-id="root"
@@ -169,7 +169,7 @@ async def respond_with_image(update, response):
                                      parse_mode=telegram.constants.ParseMode.MARKDOWN_V2)
 
 
-@auth(USER_ID)
+#@auth(USER_ID)
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Echo the user message."""
     # Send the message to OpenAI
@@ -231,9 +231,9 @@ def start_browser():
         application.add_handler(CommandHandler("reload", reload))
         application.add_handler(CommandHandler("help", help_command))
         application.add_handler(CommandHandler("draw", draw))
-
+        application.add_handler(CommandHandler("gptchat", echo))
         # on non command i.e message - echo the message on Telegram
-        application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
+        # application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
 
         # Run the bot until the user presses Ctrl-C
         application.run_polling()
