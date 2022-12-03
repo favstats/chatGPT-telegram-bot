@@ -10,8 +10,15 @@ import dotenv
 import nest_asyncio
 from utils.sdAPI import drawWithStability
 from functools import wraps
+from asyncio import wait_for
+
 nest_asyncio.apply()
 dotenv.load_dotenv()
+
+async def wait_for_element(page, selector):
+    # Wait for up to 10 seconds for the element to be present on the page
+    element = await wait_for(page.query_selector(selector), timeout=10)
+    return element
 
 from telegram import __version__ as TG_VER
 
@@ -200,16 +207,22 @@ def start_browser():
         email_input = PAGE.wait_for_selector("#username")
         email_input.fill(os.environ["EMAIL"])
     
-        # Click on the "Continue" button
-        PAGE.query_selector("button[data-label*=Continue]").click()
 
+        # Wait for the "Continue" button to be present on the page
+        continue_button = await wait_for_element(PAGE, "button[data-label*=Continue]")
+        # Click on the "Continue" button
+        continue_button.click()
+        
         # Find the password input element and fill it with the password stored in the PASSWORD environment variable
         password_input = PAGE.wait_for_selector("#password")
         password_input.fill(os.environ["PASSWORD"])
     
+
+        # Wait for the "Continue" button to be present on the page
+        continue_button = await wait_for_element(PAGE, "button[data-label*=Continue]")
         # Click on the "Continue" button
-        PAGE.query_selector("button[data-label*=Continue]").click()
-    
+        continue_button.click()
+        
         # Wait for the login process to complete
         print("Please wait while we log you in...")
         PAGE.wait_for_element("textarea")
