@@ -209,7 +209,7 @@ def start_browser():
     
 
         # Wait for the "Continue" button to be present on the page
-        continue_button = PAGE.query_selector("button.btn-primary")
+        continue_button = PAGE.query_selector("button[name=action][value=default]")
         continue_button.click()
         
         # Find the password input element and fill it with the password stored in the PASSWORD environment variable
@@ -218,7 +218,7 @@ def start_browser():
     
 
         # Wait for the "Continue" button to be present on the page
-        continue_button = PAGE.query_selector("button.btn-primary")
+        continue_button = PAGE.query_selector("button[name=action][value=default]")
         continue_button.click()
         
         # Wait for the login process to complete
