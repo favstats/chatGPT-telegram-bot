@@ -171,46 +171,6 @@ async def respond_with_image(update, response):
 
 async def gptchat(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     
-    print("begin")
-    
-    PAGE.goto("https://chat.openai.com/")
-
-    if not is_logged_in():
-        # Click on the first "button.btn-primary" element on the page which is the log in button
-        # there are two button.btn-primary buttons, one of them is labelled "Sign Up". I don't want to click on that button
-        PAGE.query_selector("button.btn-primary").click()
-        
-        # Find the email input element and fill it with the email stored in the EMAIL environment variable
-        # Wait for the email input field to appear on the page
-        email_input = PAGE.wait_for_selector("#username")
-        email_input.fill(os.environ["EMAIL"])
-    
-
-        # Wait for the "Continue" button to be present on the page
-        continue_button = PAGE.query_selector("button[name=action][value=default]")
-        continue_button.click()
-        
-        # Find the password input element and fill it with the password stored in the PASSWORD environment variable
-        # password_input = PAGE.wait_for_selector("#password")
-        # Check for the presence of the password input box using a JavaScript function
-        # password_input = PAGE.wait_for_function("document.querySelector('#password') !== null")
-        password_input = PAGE.wait_for_selector("input[name='password']")
-        # password_input.fill(os.environ["PASSWORD"])
-        # password_input.type(os.environ["PASSWORD"])
-        password_input.focus()
-        password_input.send_keys(os.environ["PASSWORD"])
-
-    
-
-        # Wait for the "Continue" button to be present on the page
-        continue_button = PAGE.query_selector("button[name=action][value=default]")
-        continue_button.click()
-        
-        # Wait for the login process to complete
-        print("Please wait while we log you in...")
-        PAGE.wait_for_selector("textarea")
-        print("You are now logged in!")
-    
     send_message(update.message.text)
     await check_loading(update)
     
@@ -254,6 +214,46 @@ async def check_loading(update):
 
 
 def start_browser():
+
+    print("begin")
+    
+    PAGE.goto("https://chat.openai.com/")
+
+    if not is_logged_in():
+        # Click on the first "button.btn-primary" element on the page which is the log in button
+        # there are two button.btn-primary buttons, one of them is labelled "Sign Up". I don't want to click on that button
+        PAGE.query_selector("button.btn-primary").click()
+        
+        # Find the email input element and fill it with the email stored in the EMAIL environment variable
+        # Wait for the email input field to appear on the page
+        email_input = PAGE.wait_for_selector("#username")
+        email_input.fill(os.environ["EMAIL"])
+    
+
+        # Wait for the "Continue" button to be present on the page
+        continue_button = PAGE.query_selector("button[name=action][value=default]")
+        continue_button.click()
+        
+        # Find the password input element and fill it with the password stored in the PASSWORD environment variable
+        password_input = PAGE.wait_for_selector("#password")
+        # Check for the presence of the password input box using a JavaScript function
+        # password_input = PAGE.wait_for_function("document.querySelector('#password') !== null")
+        # password_input = PAGE.wait_for_selector("input[name='password']")
+        password_input.fill(os.environ["PASSWORD"])
+        # password_input.type(os.environ["PASSWORD"])
+        # password_input.focus()
+        # password_input.send_keys(os.environ["PASSWORD"])
+
+    
+
+        # Wait for the "Continue" button to be present on the page
+        continue_button = PAGE.query_selector("button[name=action][value=default]")
+        continue_button.click()
+        
+        # Wait for the login process to complete
+        print("Please wait while we log you in...")
+        PAGE.wait_for_selector("textarea")
+        print("You are now logged in!")
 
     # on different commands - answer in Telegram
     application.add_handler(CommandHandler("start", start))
