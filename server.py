@@ -62,6 +62,7 @@ application = Application.builder().token(os.environ.get('TELEGRAM_API_KEY')).bu
 
 def get_input_box():
     """Get the child textarea of `PromptTextarea__TextareaWrapper`"""
+    print(PAGE.get_html())
     return PAGE.query_selector("textarea")
 
 def is_logged_in():
@@ -175,6 +176,8 @@ async def respond_with_image(update, response):
 
 async def gptchat(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     
+    # print(PAGE.get_html())
+    
     send_message(update.message.text)
     await check_loading(update)
     
@@ -259,13 +262,16 @@ def start_browser():
         PAGE.wait_for_selector("textarea")
         print("You are now logged in!")
         
-        global PAGE
         
-        # return PAGE
+        
+        return PAGE
 
 
 # if __name__ == "__main__":
-start_browser()
+PAGE = start_browser()
+    
+print(PAGE.get_html())
+
     
 # on different commands - answer in Telegram
 application.add_handler(CommandHandler("start", start))
