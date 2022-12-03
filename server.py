@@ -70,9 +70,13 @@ def is_logged_in():
 
 def send_message(message):
     # Send the message
+    print("eeeeeee")
     box = get_input_box()
+    print("whaaaa")
     box.click()
+    print("dssss")
     box.fill(message)
+    print("ddddd")
     box.press("Enter")
 
 
