@@ -19,6 +19,8 @@ jobs:
     name: Update Bot
     runs-on: "macos-latest"
     steps:
+      - name: Setup - Checkout repo
+        uses: actions/checkout@v2
       - name: create environment
         run: conda env create -f environment.yml
       - name: install playwright
@@ -27,9 +29,8 @@ jobs:
         run: python server.py
         shell: sh
         env:
-          r_telegram_bot_arnold: ${{ secrets.R_TELEGRAM_BOT_ARNOLD }}
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-          gpt3: ${{ secrets.GPT3 }}
+          TELEGRAM_API_KEY: ${{ secrets.TELEGRAM_API_KEY }}
+          TELEGRAM_USER_ID: ${{ secrets.TELEGRAM_USER_ID }}
       - name: "Commit"
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
