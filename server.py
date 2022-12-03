@@ -214,14 +214,19 @@ def start_browser():
         PAGE.wait_for_selector("textarea")
         print("You are now logged in!")
         
-        PAGE.keyboard.press('Enter')
-        PAGE.keyboard.press('Tab')
-        PAGE.keyboard.press('Tab')
+        time.sleep(2)
 
         PAGE.keyboard.press('Enter')
         PAGE.keyboard.press('Tab')
         PAGE.keyboard.press('Tab')
-        
+        time.sleep(2)
+
+        PAGE.keyboard.press('Enter')
+        PAGE.keyboard.press('Tab')
+        PAGE.keyboard.press('Tab')
+        PAGE.keyboard.press('Tab')
+        time.sleep(2)
+
         PAGE.keyboard.press('Enter')
 
         # continue_button = PAGE.query_selector("button[name=next])
@@ -244,9 +249,9 @@ application.add_handler(CommandHandler("gptchat", gptchat))
 # on non command i.e message - echo the message on Telegram
 # application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo
 # Run the bot until the user presses Ctrl-C
-application.run_polling()
+# application.run_polling()
 
-
+# PAGE.keyboard.press('Tab')
 # application.bot.send_message(chat_id=update.effective_chat.id, text=message)
 
 # send_message("asd")
