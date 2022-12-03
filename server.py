@@ -89,18 +89,22 @@ def get_last_message():
         code_blocks = prose.query_selector_all("pre")
     except AtrributeError as e:
         response = 'Server probably disconnected, try running /reload'
+    if len(code_blocks) > 0:
+        # get all children of prose and add them one by one to respons
+        response = ""
+        for child in prose.query_selector_all('p,pre'):
+            print(child.get_property('tagName'))
+            if str(child.get_property('tagName')) == "PRE":
+                code_container = child.query_selector("div[class*='CodeSnippet__CodeContainer']")
+                response += f"\n```\n{escape_markdown(code_container.inner_text(), version=2)}\n```"
+            else:
+                #replace all <code>x</code> things with `x`
+                text = child.inner_html()
+                response += escape_markdown(text, version=2)
+        response = response.replace("<code\>", "`")
+        response = response.replace("</code\>", "`")
     else:
-        if len(code_blocks) > 0:
-            # get all children of prose and add them one by one to respons
-            response = ""
-            for child in prose.query_selector_all('p,pre'):
-                print(child.get_property('tagName'))
-                if str(child.get_property('tagName')) == "PRE":
-                    code_container = child.query_selector("div[class*='CodeSnippet__CodeContainer']")
-                    response += f"\n```\n{escape_markdown(code_container.inner_text(), version=2)}\n```"
-                else:
-                    response += f"\n{escape_markdown(child.inner_text(), version=2)}\n"
-    # return the response
+        response = escape_markdown(prose.inner_text(), version=2)
     return response
 
 # create a decorator called auth that receives USER_ID as an argument with wraps
@@ -167,15 +171,24 @@ async def respond_with_image(update, response):
 
 async def gptchat(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     
+    print("begin")
+    
     send_message(update.message.text)
     await check_loading(update)
     
+    print("are you ever here?")
+    
     # Retrieve the latest message from the chatbot
     message = get_last_message()
+    
+    print(message)
+    print("are you everyy there?")
 
     # Send the message to the user
     context.bot.send_message(chat_id=update.effective_chat.id, text=message)
 
+    print("end")
+    
 #@auth(USER_ID)
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Echo the user message."""
