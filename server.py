@@ -196,7 +196,7 @@ def start_browser():
         PAGE.query_selector("button.btn-primary").click()
         
         # Find the email input element and fill it with the email stored in the EMAIL environment variable
-        email_input = PAGE.query_selector("input[inputmode=email]")
+        email_input = PAGE.query_selector("#username")
         email_input.fill(os.environ["EMAIL"])
     
         # Click on the "Continue" button
