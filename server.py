@@ -195,17 +195,24 @@ def start_browser():
         # there are two button.btn-primary buttons, one of them is labelled "Sign Up". I don't want to click on that button
         PAGE.query_selector("button.btn-primary").click()
         
-        # Enter the email and password from the environment variables
-        email_input = PAGE.query_selector('input[name="username"]')
+        # Find the email input element and fill it with the email stored in the EMAIL environment variable
+        email_input = PAGE.query_selector("input[inputmode=email]")
         email_input.fill(os.environ["EMAIL"])
-        password_input = PAGE.query_selector('input[name="password"]')
+    
+        # Click on the "Continue" button
+        PAGE.query_selector("button[data-label=Continue]").click()
+    
+        # Find the password input element and fill it with the password stored in the PASSWORD environment variable
+        password_input = PAGE.query_selector("input[type=password]")
         password_input.fill(os.environ["PASSWORD"])
-
-        # Click the Continue button to log in
-        PAGE.query_selector('button[value="default"]').click()
-
-        # Wait for the page to load
-        PAGE.wait_for_selector('textarea')
+    
+        # Click on the "Continue" button
+        PAGE.query_selector("button[data-label=Continue]").click()
+    
+        # Wait for the login process to complete
+        print("Please wait while we log you in...")
+        PAGE.wait_for_element("textarea")
+        print("You are now logged in!")
 
     else:
 
