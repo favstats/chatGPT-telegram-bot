@@ -226,8 +226,6 @@ def start_browser():
         PAGE.wait_for_selector("textarea")
         print("You are now logged in!")
 
-    else:
-
         # on different commands - answer in Telegram
         application.add_handler(CommandHandler("start", start))
         application.add_handler(CommandHandler("reload", reload))
