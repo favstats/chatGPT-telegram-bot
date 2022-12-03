@@ -62,7 +62,8 @@ application = Application.builder().token(os.environ.get('TELEGRAM_API_KEY')).bu
 
 def get_input_box():
     """Get the child textarea of `PromptTextarea__TextareaWrapper`"""
-    return PAGE.query_selector("textarea")
+    # Wait for the element to become visible and stable
+    return PAGE.wait_for_selector("textarea")
 
 def is_logged_in():
     # See if we have a textarea with data-id="root"
