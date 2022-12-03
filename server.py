@@ -89,22 +89,18 @@ def get_last_message():
         code_blocks = prose.query_selector_all("pre")
     except AtrributeError as e:
         response = 'Server probably disconnected, try running /reload'
-    if len(code_blocks) > 0:
-        # get all children of prose and add them one by one to respons
-        response = ""
-        for child in prose.query_selector_all('p,pre'):
-            print(child.get_property('tagName'))
-            if str(child.get_property('tagName')) == "PRE":
-                code_container = child.query_selector("div[class*='CodeSnippet__CodeContainer']")
-                response += f"\n```\n{escape_markdown(code_container.inner_text(), version=2)}\n```"
-            else:
-                #replace all <code>x</code> things with `x`
-                text = child.inner_html()
-                response += escape_markdown(text, version=2)
-        response = response.replace("<code\>", "`")
-        response = response.replace("</code\>", "`")
     else:
-        response = escape_markdown(prose.inner_text(), version=2)
+        if len(code_blocks) > 0:
+            # get all children of prose and add them one by one to respons
+            response = ""
+            for child in prose.query_selector_all('p,pre'):
+                print(child.get_property('tagName'))
+                if str(child.get_property('tagName')) == "PRE":
+                    code_container = child.query_selector("div[class*='CodeSnippet__CodeContainer']")
+                    response += f"\n```\n{escape_markdown(code_container.inner_text(), version=2)}\n```"
+                else:
+                    response += f"\n{escape_markdown(child.inner_text(), version=2)}\n"
+    # return the response
     return response
 
 # create a decorator called auth that receives USER_ID as an argument with wraps
