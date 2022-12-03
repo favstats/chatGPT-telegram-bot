@@ -30,7 +30,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install python-telegram-bot
+          pip install python-telegram-bot==20.0a6
           pip install nest-asyncio
       - name: install playwright
         run: playwright install
