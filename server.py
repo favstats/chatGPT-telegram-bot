@@ -119,7 +119,7 @@ def auth(user_id):
         return wrapper
     return decorator
 
-@auth(USER_ID)
+# @auth(USER_ID)
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send a message when the command /start is issued."""
     user = update.effective_user
@@ -128,12 +128,12 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         reply_markup=ForceReply(selective=True),
     )
 
-@auth(USER_ID)
+# @auth(USER_ID)
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send a message when the command /help is issued."""
     await update.message.reply_text("Help!")
 
-@auth(USER_ID)
+# @auth(USER_ID)
 async def reload(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Send a message when the command /help is issued."""
     print(f"Got a reload command from user {update.effective_user.id}")
@@ -141,7 +141,7 @@ async def reload(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     await update.message.reply_text("Reloaded the browser!")
     await update.message.reply_text("Let's check if it's workin!")
 
-@auth(USER_ID)
+# @auth(USER_ID)
 async def draw(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     print(f"Got a draw command from user {update.effective_user.id} with prompt {update.message.text}")
 
