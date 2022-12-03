@@ -259,11 +259,13 @@ def start_browser():
         PAGE.wait_for_selector("textarea")
         print("You are now logged in!")
         
-        return PAGE
+        global PAGE
+        
+        # return PAGE
 
 
 # if __name__ == "__main__":
-PAGE = start_browser()
+start_browser()
     
 # on different commands - answer in Telegram
 application.add_handler(CommandHandler("start", start))
