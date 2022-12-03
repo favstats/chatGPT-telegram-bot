@@ -62,7 +62,7 @@ application = Application.builder().token(os.environ.get('TELEGRAM_API_KEY')).bu
 
 def get_input_box():
     """Get the child textarea of `PromptTextarea__TextareaWrapper`"""
-    return PAGE.wait_for_selector("textarea")
+    return PAGE.query_selector("textarea")
 
 def is_logged_in():
     # See if we have a textarea with data-id="root"
@@ -169,6 +169,17 @@ async def respond_with_image(update, response):
                                      parse_mode=telegram.constants.ParseMode.MARKDOWN_V2)
 
 
+def gptchat(update: Update, context: Context):
+    
+    send_message(update.message.text)
+    await check_loading(update)
+    
+    # Retrieve the latest message from the chatbot
+    message = get_last_message()
+
+    # Send the message to the user
+    context.bot.send_message(chat_id=update.effective_chat.id, text=message)
+
 #@auth(USER_ID)
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Echo the user message."""
@@ -231,7 +242,7 @@ def start_browser():
         application.add_handler(CommandHandler("reload", reload))
         application.add_handler(CommandHandler("help", help_command))
         application.add_handler(CommandHandler("draw", draw))
-        application.add_handler(CommandHandler("gptchat", echo))
+        application.add_handler(CommandHandler("gptchat", gptchat))
         # on non command i.e message - echo the message on Telegram
         # application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
 
